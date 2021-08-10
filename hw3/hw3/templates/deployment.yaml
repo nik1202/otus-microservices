@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "hw3.fullname" . }}
+  labels:
+    {{- include "hw3.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "hw3.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "hw3.selectorLabels" . | nindent 8 }}
+#      annotations:
+#        checksum/config: {{ include (print $.Template.BasePath "/config.yaml") . | sha256sum }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          imagePullPolicy: Always
+          image: {{ .Values.image.repository }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hw3.fullname" . }}
+                  key: DB_USER
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "hw3.fullname" . }}
+                  key: DB_PASS
+            - name: DB_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ include "hw3.fullname" . }}
+                  key: DB_URL
+          ports:
+            - name: web
+              containerPort: 8000

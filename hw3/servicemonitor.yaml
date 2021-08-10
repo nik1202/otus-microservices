@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    app: test-app-test-chart
+  name: test-app-test-chart
+spec:
+  jobLabel: test-app-test-chart
+  namespaceSelector:
+    matchNames:
+      - monitoring
+  endpoints:
+    - interval: 15s
+      port: http
+      path: /actuator/prometheus
+  selector:
+    matchLabels:
+      app: test-app-test-chart
+
+
+
