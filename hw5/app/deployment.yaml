@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hw5-deploy
+  namespace: apps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hw5
+  template:
+    metadata:
+      labels:
+        app: hw5
+    spec:
+      containers:
+        - name: hw5
+          imagePullPolicy: Always
+          image: nik1202/hw1:v5
+          ports:
+            - name: web
+              containerPort: 8000

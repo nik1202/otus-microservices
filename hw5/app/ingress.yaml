@@ -1,0 +1,59 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hw5-ingress-auth
+  namespace: apps
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /api/v1/auth
+            pathType: Prefix
+            backend:
+              service:
+                name: hw5-service
+                port:
+                  number: 8000
+          - path: /api/v1/login
+            pathType: Prefix
+            backend:
+              service:
+                name: hw5-service
+                port:
+                  number: 8000
+          - path: /api/v1/logout
+            pathType: Prefix
+            backend:
+              service:
+                name: hw5-service
+                port:
+                  number: 8000
+          - path: /api/v1/register
+            pathType: Prefix
+            backend:
+              service:
+                name: hw5-service
+                port:
+                  number: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hw5-ingress-user
+  namespace: apps
+  annotations:
+    nginx.ingress.kubernetes.io/auth-url: http://hw5-service.apps.svc.cluster.local:8000/api/v1/auth
+    nginx.ingress.kubernetes.io/auth-response-headers: userId
+spec:
+  rules:
+    - host: arch.homework
+      http:
+        paths:
+          - path: /api/v1/user
+            pathType: Prefix
+            backend:
+              service:
+                name: hw5-service
+                port:
+                  number: 8000

@@ -1,0 +1,465 @@
+{
+	"info": {
+		"_postman_id": "890a730e-19de-435a-be98-45e47b9146a7",
+		"name": "hw5",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register first user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Registration successed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = JSON.parse(responseBody);\r",
+							"console.log(data)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"name1\", pm.variables.replaceIn('{{$randomFirstName}}'))\r",
+							"pm.collectionVariables.set(\"password1\", pm.variables.replaceIn('{{$randomPassword}}'))\r",
+							"pm.collectionVariables.set(\"email1\", pm.variables.replaceIn('{{$randomEmail}}'))\r",
+							"pm.collectionVariables.set(\"phone1\", pm.variables.replaceIn('{{$randomPhoneNumber}}'))\r",
+							"\r",
+							"console.log('name = ' + pm.collectionVariables.get(\"name1\") +\r",
+							"            ', password = ' + pm.collectionVariables.get(\"password1\") +\r",
+							"            ', email = ' + pm.collectionVariables.get(\"email1\") +\r",
+							"            ', phone = ' + pm.collectionVariables.get(\"phone1\")\r",
+							"            )"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name1}}\",\r\n    \"password\": \"{{password1}}\",\r\n    \"email\": \"{{email1}}\",\r\n    \"phone\": \"{{phone1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get first user info without login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"No data without login\", function () {\r",
+							"    pm.response.to.have.status(401);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login first user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login successed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('name = ' + pm.collectionVariables.get(\"name1\") +\r",
+							"            ', password = ' + pm.collectionVariables.get(\"password1\")\r",
+							"            )"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name1}}\",\r\n    \"password\": \"{{password1}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get first user info with login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get data for logined user\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = JSON.parse(responseBody);\r",
+							"console.log(data)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change email for first user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"console.log(data)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('name = ' + pm.collectionVariables.get(\"name1\") +\r",
+							"            ', password = ' + pm.collectionVariables.get(\"password1\") +\r",
+							"            ', email = ' + pm.collectionVariables.get(\"email1\") +\r",
+							"            ', phone = 00000'\r",
+							"            )"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name1}}\",\r\n    \"password\": \"{{password1}}\",\r\n    \"email\": \"{{email1}}\",\r\n    \"phone\": \"00000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout first user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/logout",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register second user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Registration successed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = JSON.parse(responseBody);\r",
+							"console.log(data)"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"name2\", pm.variables.replaceIn('{{$randomFirstName}}'))\r",
+							"pm.collectionVariables.set(\"password2\", pm.variables.replaceIn('{{$randomPassword}}'))\r",
+							"pm.collectionVariables.set(\"email2\", pm.variables.replaceIn('{{$randomEmail}}'))\r",
+							"pm.collectionVariables.set(\"phone2\", pm.variables.replaceIn('{{$randomPhoneNumber}}'))\r",
+							"\r",
+							"console.log('name = ' + pm.collectionVariables.get(\"name2\") +\r",
+							"            ', password = ' + pm.collectionVariables.get(\"password2\") +\r",
+							"            ', email = ' + pm.collectionVariables.get(\"email2\") +\r",
+							"            ', phone = ' + pm.collectionVariables.get(\"phone2\")\r",
+							"            )"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name2}}\",\r\n    \"password\": \"{{password2}}\",\r\n    \"email\": \"{{email2}}\",\r\n    \"phone\": \"{{phone2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login second user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login successed\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log('name = ' + pm.collectionVariables.get(\"name2\") +\r",
+							"            ', password = ' + pm.collectionVariables.get(\"password2\")\r",
+							"            )"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"{{name2}}\",\r\n    \"password\": \"{{password2}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get second user info with login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get data for logined user\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"var data = JSON.parse(responseBody);\r",
+							"console.log(data)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "arch.homework"
+		},
+		{
+			"key": "name1",
+			"value": "name1"
+		},
+		{
+			"key": "password1",
+			"value": "password1"
+		},
+		{
+			"key": "email1",
+			"value": "email1"
+		},
+		{
+			"key": "phone1",
+			"value": "phone1"
+		},
+		{
+			"key": "name2",
+			"value": "name2"
+		},
+		{
+			"key": "password2",
+			"value": "password2"
+		},
+		{
+			"key": "email2",
+			"value": "email2"
+		},
+		{
+			"key": "phone2",
+			"value": "phone2"
+		}
+	]
+}
